@@ -13,6 +13,4 @@ For 3 years I have created several projects and games for the Computer Science m
 https://zivrefaeli.github.io/Highschool/
 
 ## License
-```
-TODO
-```
+Highschool was created by Ziv Refaeli and released under the [MIT license](https://github.com/zivrefaeli/Highschool/blob/master/LICENCE).
