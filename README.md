@@ -2,15 +2,14 @@
 
 I graduated from Makif Tet High School in Rishon Lezion in 2022.<br>
 For 3 years I have created several projects and games for the Computer Science major (Techem).<br>
-*Here are the main projects:* <br>
-
+*Here are the main projects:*<br>
 - The Wheel of Fortune
 - Techem Quiz
 - Snakes and Ladders
 - All My Sons - Module F
 
 ## View Online
-https://zivrefaeli.github.io/Highschool/
+https://zivrefaeli.github.io/highschool/
 
 ## License
-Highschool was created by Ziv Refaeli and released under the [MIT license](https://github.com/zivrefaeli/Highschool/blob/master/LICENCE).
+highschool was created by Ziv Refaeli and released under the [MIT license](https://github.com/zivrefaeli/highschool/blob/master/LICENCE).
