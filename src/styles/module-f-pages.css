@@ -1,0 +1,40 @@
+body {
+    margin: 0 5%;
+}
+
+h1, h3 {
+    font-family: 'Gisha';
+}
+
+p {
+    font-family: 'Calibri Light';
+}
+
+h1 {
+    color: #71085a;
+}
+
+h3 {
+    color: #400575;
+}
+
+video {
+    width: 50%;
+    margin: 0 25%;
+}
+
+ul {
+    padding: 0;
+    font-family: 'Calibri Light';
+}
+
+li {
+    list-style-position: inside;
+}
+
+@media (max-width: 600px) {
+    video {
+        width: 100%;
+        margin: 0;
+    }
+}
