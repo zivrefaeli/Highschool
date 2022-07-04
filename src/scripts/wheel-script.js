@@ -10,7 +10,7 @@ const button = document.querySelector('button');
 const final_text = ['הנדסת', 'תוכנה', 'ההבטחה', 'להצלחה'];
 let totalDeg = 0;
 let rotating = false;
-let data, loaded = false;
+let loaded = false;
 let questions = [], selectIndex = -1, answerIndex;
 let answersItems = [], clickable = false, checked = false;
 let totalAns = 0, correctAns = 0;
@@ -28,11 +28,7 @@ class Question {
     }
 }
 
-function random(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function convertData() {
+function convertData(data) {
     let dataArr = String(data).split('\n');
     dataArr = dataArr.map(value => {
         if (value.endsWith('\r'))
@@ -115,16 +111,6 @@ function displayQuestion(qnum) {
     clickable = true;
 }
 
-function validateFile(file) {
-    const name = String(file.name);
-    if (!name.startsWith('QC'))
-        return -1;
-    const list = name.split('-');
-    if (list.length != 2)
-        return -1;
-    return parseInt(list[1]);
-}
-
 button.onclick = () => {
     if (selectIndex == -1 || checked)
         return; 
@@ -145,33 +131,10 @@ button.onclick = () => {
 
 input.onchange = () => {
     const file = input.files[0];
-    const reader = new FileReader();
-    try {
-        reader.readAsText(file);
-    } catch {
-        console.log("error");
-        return;
-    }
-
-    reader.onload = (event) => {
-        console.log(file);
-        const key = validateFile(file);
-        if (key != -1) {
-            data = decode(event.target.result, key);
-            if (data.endsWith('Ziv Refeali')) {
-                loaded = true;
-                convertData();
-            } else {
-                alert('הכניסו את הקובץ הנכון!');
-            }
-        } else {
-            alert('הכניסו את הקובץ הנכון!');
-        }
-    };
-
-    reader.onerror = (event) => {
-        console.log("error: " + event);
-    };
+    uploadFile(file, data => {
+        loaded = true;
+        convertData(data);
+    });
 };
 
 pointer.onclick = () => {
