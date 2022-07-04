@@ -11,7 +11,8 @@
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     height: 100%;
     max-width: 100%;
     overflow-x: hidden;
@@ -22,13 +23,15 @@ body {
     grid-template-rows: min-content auto;
     grid-auto-columns: minmax(0, 1fr);
     justify-items: center;
-    align-items: center;    
-    background-image:  url(../res/images/wheel-bg.png);
+    align-items: center;
+    background-image: url(../res/images/wheel-bg.png);
     background-repeat: no-repeat;
     background-size: cover;
     overflow-y: scroll;
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
 /*Chrome, Safari and Opera */
@@ -51,7 +54,7 @@ div.wheel-container {
     justify-items: center;
 }
 
-div.wheel-container > * {
+div.wheel-container>* {
     position: relative;
 }
 
@@ -82,11 +85,11 @@ div.questions-container {
     background: #fbfffc;
 }
 
-.file-input > h4 {
+.file-input>h4 {
     margin: 10px 0px;
 }
 
-.file-input > input {
+.file-input>input {
     height: min-content;
     padding: 10px;
     background-color: aliceblue;
@@ -111,7 +114,7 @@ div.questions-container {
     margin: 10px;
 }
 
-.q-answers > div {
+.q-answers>div {
     display: grid;
     height: 100px;
     background-color: #b0cbff;
@@ -122,7 +125,7 @@ div.questions-container {
     font-size: 18px;
 }
 
-.q-answers > div:hover {
+.q-answers>div:hover {
     filter: brightness(0.9);
 }
 
@@ -153,7 +156,8 @@ button {
         width: 100%;
     }
 
-    .file-input {
+    .file-input,
+    .question {
         margin: 0 20px;
     }
 

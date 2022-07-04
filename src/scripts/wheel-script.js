@@ -13,6 +13,7 @@ let rotating = false;
 let data, loaded = false;
 let questions = [], selectIndex = -1, answerIndex;
 let answersItems = [], clickable = false, checked = false;
+let totalAns = 0, correctAns = 0;
 
 class Question {
     constructor(number, title, answers, correct) {
@@ -130,8 +131,11 @@ button.onclick = () => {
     clickable = false;
     clearAnswer();
     answersItems[answerIndex].style.backgroundColor = 'green';
-    if (selectIndex == answerIndex)
+    totalAns++;
+    if (selectIndex == answerIndex) {
         alert('תשובה נכונה!');
+        correctAns++;
+    }
     else {
         alert('תשובה שגויה');
         answersItems[selectIndex].style.backgroundColor = 'red';
@@ -195,6 +199,7 @@ wheel.addEventListener("animationend", () => {
     
     if (questions.length == 0) {
         alert('פתרתם את כל השאלות!');
+        alert(`עניתם נכון על ${correctAns}/${totalAns} שאלות!`);
         displayQuestion(-1);
         clickable = false;
         checked = true;
