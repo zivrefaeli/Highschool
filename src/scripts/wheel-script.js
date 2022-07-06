@@ -15,41 +15,6 @@ let questions = [], selectIndex = -1, answerIndex;
 let answersItems = [], clickable = false, checked = false;
 let totalAns = 0, correctAns = 0;
 
-class Question {
-    constructor(number, title, answers, correct) {
-        this.number = number;
-        this.title = title;
-        this.answers = []
-        let ans = String(answers).split(',');
-        ans.forEach(value => {
-            this.answers.push(value);
-        });
-        this.correct = parseInt(correct);
-    }
-}
-
-function convertData(data) {
-    let dataArr = String(data).split('\n');
-    dataArr = dataArr.map(value => {
-        if (value.endsWith('\r'))
-            return value.substring(0, value.length - 1);
-        return value;
-    });
-    dataArr.pop();
-    console.log(dataArr);
-    let count = 0;
-    dataArr.forEach(q => {
-        let parts = q.split('|');
-        let qus = new Question(++count, parts[0], parts[1], parts[2])
-        questions.push(qus);
-    });
-    console.table(questions);
-    setAnswersClick();
-    alert('סובבו את הגלגל!');
-    displayQuestion(-1);
-    checked = true;
-}
-
 function setAnswersClick() {
     for (let i = 0; i < q_answers.childElementCount; i++)
         answersItems.push(q_answers.children.item(i));
@@ -132,8 +97,12 @@ button.onclick = () => {
 input.onchange = () => {
     const file = input.files[0];
     uploadFile(file, data => {
+        questions = convertData(data);
         loaded = true;
-        convertData(data);
+        setAnswersClick();
+        alert('סובבו את הגלגל!');
+        displayQuestion(-1);
+        checked = true;
     });
 };
 

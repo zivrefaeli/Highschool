@@ -71,12 +71,14 @@
     </div>
     
     <script defer src="https://zivrefaeli.github.io/Questions-Creator/file.manager.js"></script>
-    <script defer>
+    <script defer>    
         const input = document.querySelector('input');
+        const questions = [];
+
         input.onchange = () => {
             const file = input.files[0];
             uploadFile(file, data => {
-                alert(data);
+                alert(convertData(data));
             });
         };
     </script>
