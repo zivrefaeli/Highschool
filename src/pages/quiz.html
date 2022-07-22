@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>טריווית הנדסת תוכנה - זיו רפאלי</title>
+    <link rel="icon" href="../res/images/makif-tet-logo.png" />
+</head>
+
+<body>
+    <div id="title">
+        <h1>טריווית הנדסת תוכנה</h1>
+    </div>
+    <div id="grid">
+        <table id="table">
+            <tbody>
+                <tr>
+                    <th>תכנות</th>
+                    <th>כללי</th>
+                    <th>חומרה</th>
+                </tr>
+                <tr>
+                    <td qus='1|100'>100</td>
+                    <td qus='2|100'>100</td>
+                    <td qus='3|100'>100</td>
+                </tr>
+                <tr>
+                    <td qus='1|200'>200</td>
+                    <td qus='2|200'>200</td>
+                    <td qus='3|200'>200</td>
+                </tr>
+                <tr>
+                    <td qus='1|300'>300</td>
+                    <td qus='2|300'>300</td>
+                    <td qus='3|300'>300</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="qustions">
+        <div id="qus_content"></div>
+    </div>
+    <div id="team1" class="team">
+        <div>
+            <b>קבוצה 1</b><br />
+            <b id="score1">0</b>
+        </div>
+    </div>
+    <div id="team2" class="team">
+        <div>
+            <b>קבוצה 2</b><br />
+            <b id="score2">0</b>
+        </div>
+    </div>
+    <div id="gameTimer">
+        <div id="timer">00:00</div>
+    </div>
+    <button id="startBtn">✪</button>
+    <div id="creator">
+        נוצר על ידי: זיו רפאלי
+    </div>
+
+    <script>
+        var table = document.getElementById("table")
+        var qustionDiv = document.getElementById("qustions")
+        var qustionContent = document.getElementById("qus_content")
+        var startBtn = document.getElementById("startBtn")
+        var clock = document.getElementById("timer")
+        var scores = [0, 0], time = [0, 0]
+        var timer = 0, totalQustions = 0
+        var onTd = false, qustionOpen = false, gameOn = false
+
+        var qustions = {
+            1: ['למה יהיה שווה a?<br />a = (10 % 3)+5 * 2', 'אם נתון ש a=3, b=6 מה תהיה התוצאה של:<br />(2*a)+(b-a)^2', 'אם נתון ש a=8, b=5 מה תהיה התוצאה של: (a*b^2)?'],
+            2: ['מהו קובץ עם סיומת mp3?', 'מהו IP?', 'כמה Byte יש ב kb אחד?'],
+            3: ['בלוח האם של המחשב יש סוללה קטנה, למה היא משמשת?', 'מהו מעבד?', 'המעבדים הנפוצים של אינטל הם']
+        }
+
+        startBtn.addEventListener("click", () => {
+            gameOn = true
+            startBtn.style.display = "none"
+            startGameTimer()
+        })
+
+        let startGameTimer = () => {
+            let interTime = setInterval(() => {
+                time[0]++
+                if (time[0] == 60) {
+                    time[1]++
+                    time[0] = 0
+                }
+
+                if (time[1] < 10)
+                    clock.innerHTML = `0${time[1]}:`
+                else
+                    clock.innerHTML = time[1] + ":"
+
+                if (time[0] < 10)
+                    clock.innerHTML += '0' + time[0]
+                else
+                    clock.innerHTML += time[0]
+
+                if (totalQustions == 9) {
+                    clearInterval(interTime)
+                    alertTimer("סיימתם את כל השאלות!", 1) // done all qustions!
+                }
+            }, 1000)
+        }
+
+        table.addEventListener("mouseover", (element) => {
+            if (gameOn) {
+                let onElement = element.path[0]
+                if (onElement.nodeName == 'TD' && onElement.info == undefined) {
+                    onElement.style.background = "rgb(48, 110, 134)"
+                    onTd = true
+                }
+            }
+        })
+
+        table.addEventListener("mouseout", (element) => {
+            if (gameOn) {
+                let onElement = element.path[0]
+                if (onElement.nodeName == 'TD' && onElement.info == undefined) {
+                    onElement.style.background = "lightseagreen"
+                    onTd = false
+                }
+            }
+        })
+
+        table.addEventListener("click", (element) => {
+            if (gameOn) {
+                let onElement = element.path[0]
+                if (onElement.nodeName == 'TD' && onTd && qustionOpen == false) {
+                    onElement.style.background = "lightseagreen"
+                    onElement.info = 'done'
+                    onElement.style.opacity = '0.2'
+                    onElement.style.cursor = 'initial'
+
+                    onTd = false
+                    qustionOpen = true
+                    startQustion(onElement.getAttribute("qus").split('|'))
+                }
+            }
+            else alert("לחצו על ✪ כדי להתחיל")
+        })
+
+        let showQustion = (show) => {
+            let opacity = 0
+            qustionDiv.style.display = 'table'
+
+            if (show)
+                qustionDiv.style.opacity = '0'
+            else {
+                opacity = 10
+                qustionDiv.style.opacity = '1'
+            }
+
+            let inter = setInterval(() => {
+                if (show)
+                    opacity++
+                else
+                    opacity--
+                qustionDiv.style.opacity = `${opacity / 10}`
+
+                if ((opacity == 10 && show) || (opacity == 0 && !show)) {
+                    clearInterval(inter)
+                    if (!show)
+                        qustionDiv.style.display = "none"
+                }
+            }, 20)
+        }
+
+        let startQustion = (value) => {
+            showQustion(true)
+
+            let col = parseInt(value[0]), val = parseInt(value[1][0])
+            qustionContent.innerHTML = qustions[col][3 - val] + "<br /><br />"
+            qustionContent.innerHTML += "<b id='qusTimer'>00:30</b><br />"
+
+            qustionContent.innerHTML += `<button onclick='addScore(1, ${val * 100})' class='button_score'>קבוצה 1</button>`
+            qustionContent.innerHTML += `<button onclick='teko()' class='button_score'>תיקו</button>`
+            qustionContent.innerHTML += `<button onclick='addScore(2, ${val * 100})' class='button_score'>קבוצה 2</button>`
+
+            startTimer(30)
+        }
+
+        let addScore = (teamNumber, score) => {
+            scores[teamNumber - 1] += score
+            document.getElementById(`score${teamNumber}`).innerHTML = scores[teamNumber - 1]
+
+            qustionContent.innerHTML = ""
+            qustionDiv.style.display = 'none'
+            totalQustions++
+
+            qustionOpen = false
+            clearInterval(timer)
+            showQustion(false)
+        }
+
+        let startTimer = (time) => {
+            // 0 < time < 60
+            let timerDiv = document.getElementById("qusTimer")
+            timer = setInterval(() => {
+                time -= 1
+
+                if (time < 10)
+                    timerDiv.innerHTML = "00:0" + time
+                else
+                    timerDiv.innerHTML = "00:" + time
+
+                if (time <= 10) {
+                    if (time % 2 == 0)
+                        timerDiv.style.color = 'red'
+                    else
+                        timerDiv.style.color = 'black'
+                }
+
+                if (time == 0) {
+                    clearInterval(timer)
+                    teko()
+                }
+            }, 1000)
+        }
+
+        let teko = () => {
+            totalQustions++
+            qustionOpen = false
+            clearInterval(timer)
+            showQustion(false)
+        }
+
+        let alertTimer = (text, sec) => {
+            let count = 0
+            let inter = setInterval(() => {
+                count++;
+                if (count == sec) {
+                    clearInterval(inter)
+                    alert(text)
+                }
+            }, sec * 1000)
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            position: relative;
+            user-select: none;
+        }
+
+        body {
+            top: 0;
+            left: 0;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        #title {
+            top: 0;
+            left: 0;
+
+            width: calc(100% - 4vh);
+            height: 6vh;
+            padding: 2vh;
+
+            display: table;
+            text-align: center;
+        }
+
+        #title h1 {
+            display: table-cell;
+            vertical-align: middle;
+            font-size: 260%;
+            font-family: 'Times New Roman', Times, serif;
+            text-shadow: 3px 3px 5px rgba(134, 149, 233, 0.623);
+        }
+
+        #grid {
+            top: 0;
+            left: 0;
+
+            width: calc(100% - 10vh);
+            margin-left: 5vh;
+            margin-right: 5vh;
+
+            height: calc(90vh - 12vh - 4vh);
+
+            background-color: lightblue;
+            border-radius: 5vh;
+        }
+
+        #table {
+            width: 100%;
+            height: 100%;
+            direction: rtl;
+
+            padding: 2vh;
+        }
+
+        #table tr {
+            height: 25%;
+        }
+
+        #table td,
+        th {
+            width: calc(100% / 3);
+            background-color: lightseagreen;
+            border: 1px solid black;
+            border-radius: 5vh;
+
+            font-size: 200%;
+            font-family: 'David';
+            text-align: center;
+        }
+
+        #table th {
+            background-color: purple;
+            color: white;
+            text-shadow: 3px 3px 0px gray;
+        }
+
+        #table td {
+            cursor: pointer;
+            opacity: 1;
+        }
+
+        #qustions {
+            position: fixed;
+            top: calc(100vh / 3);
+
+            width: calc(100% / 3);
+            height: calc(100vh / 3);
+            margin-right: calc(100% / 3);
+            margin-left: calc(100% / 3);
+
+            background-color: rgb(251, 255, 208);
+            text-align: center;
+            display: none;
+
+            border: 2px dashed black;
+            box-shadow: 5px 5px 10px gray;
+            direction: rtl;
+        }
+
+        #qustions div {
+            display: table-cell;
+            vertical-align: middle;
+            padding: 5%;
+
+            font-size: 240%;
+            font-family: 'David';
+        }
+
+        .team {
+            position: fixed;
+            display: table;
+            text-align: center;
+
+            height: 12vh;
+            width: 16vh;
+
+            background: rgb(161, 235, 185);
+            margin: 2vh;
+            bottom: 0;
+
+            border-radius: 8px;
+            border: 1px dashed black;
+            box-shadow: 5px 5px 8px gray;
+        }
+
+        .team div {
+            display: table-cell;
+            vertical-align: middle;
+
+            font-size: 200%;
+            font-family: 'Aharoni';
+        }
+
+        #team1 {
+            right: 0;
+        }
+
+        #team2 {
+            left: 0;
+        }
+
+        .button_score {
+            padding: 10px;
+            margin: 5px;
+        }
+
+        #gameTimer {
+            position: fixed;
+            width: 15%;
+            height: 8vh;
+
+            bottom: 0;
+            left: calc((100% - 15% - 4vh) / 2);
+
+            background-color: rgb(255, 154, 154);
+            text-align: center;
+            display: table;
+
+            margin-top: 4vh;
+            margin-bottom: 4vh;
+
+            font-family: 'Consolas';
+            font-weight: bold;
+            font-size: 260%;
+
+            border: 1px solid black;
+        }
+
+        #timer {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        #startBtn {
+            position: fixed;
+
+            height: 6vh;
+            width: 6vh;
+
+            text-align: center;
+            bottom: 0;
+            left: calc((100% - 15% - 4vh) / 2 + 15% + 1px + 2vh);
+
+            margin-top: 5vh;
+            margin-bottom: 5vh;
+            font-size: 130%;
+        }
+
+        #creator {
+            position: fixed;
+            top: 0;
+            right: 0;
+
+            background-color: rgb(145 160 255);
+            width: fit-content;
+            height: fit-content;
+
+            padding: 1vh;
+            border-radius: 1vh;
+            margin: 1vh;
+
+            color: rgb(255, 200, 0);
+            text-shadow: 2px 2px 3px black;
+            font-size: 150%;
+            font-family: 'David';
+        }
+    </style>
+</body>
+
+</html>

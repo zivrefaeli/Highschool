@@ -31,6 +31,7 @@
         .title {
             text-decoration: underline;
             margin: 10px 0;
+            text-align: center;
         }
 
         .file-input {
@@ -54,6 +55,21 @@
             max-width: 100%;
         }
 
+        .wall {
+            display: grid;
+            gap: 10px;
+            margin: 10px;
+        }
+
+        .wall>* {
+            display: grid;
+            align-items: center;
+            justify-items: center;
+            background: rgb(205, 205, 205);
+            border: 1px solid black;
+            border-radius: 10px;
+        }
+
         @media (max-width: 600px) {
             .file-input {
                 width: 90%;
@@ -64,23 +80,61 @@
 
 <body dir="rtl">
     <h1 class="title">חידון המגמה</h1>
+    
     <div class="file-input">
         <h2>הכניסו את קובץ השאלות</h2>
         <h4>אם אין לכם קובץ כזה, תוכלו ליצור אחד <a href="https://zivrefaeli.github.io/Questions-Creator/" target="_blank">בקישור הבא</a></h4>
         <input type="file" placeholder="בחר קובץ">
     </div>
+
+    <!-- <div class="settings"></div> -->
+
+    <!-- <div class="wall"></div> -->
     
     <script defer src="https://zivrefaeli.github.io/Questions-Creator/file.manager.js"></script>
-    <script defer>    
+    <script defer>
+        const fileInput = document.querySelector('div.file-input');
         const input = document.querySelector('input');
-        const questions = [];
+        const wall = document.querySelector('div.wall');
+        let questions = [];
+
+        function setWallGrid(rows, columns) {
+            wall.innerHTML = '';
+            wall.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+            wall.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+            for (let i = 1; i <= rows * columns; i++) {
+                const div = document.createElement('div');
+                div.innerHTML = i;
+                wall.appendChild(div);
+            } 
+        }
 
         input.onchange = () => {
             const file = input.files[0];
             uploadFile(file, data => {
-                alert(convertData(data));
+                questions = convertData(data);
+                if (questions.length < 4) {
+                    alert('הכניסו קובץ עם 4 שאלות לפחות');
+                } else {
+                    fileInput.style.display = 'none';
+                    console.log(getDimentions());
+                }
             });
         };
+
+        function getDimentions() {
+            const length = questions.length;
+            const dims = [];
+            for (let i = 2; i <= Math.floor(length / 2); i++) {
+                if (length % i == 0) {
+                    let j = length / i;
+                    dims.push(`${i}x${j}`);
+                    if (i != j)
+                        dims.push(`${j}x${i}`);
+                }
+            }
+            return dims;
+        }
     </script>
 </body>
 

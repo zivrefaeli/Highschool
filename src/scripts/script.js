@@ -2,8 +2,8 @@ const background = document.querySelector('canvas.background');
 const projects = document.querySelector('div.projects');
 const paths = [
     '/src/pages/wheel.html',
-    '/src/pages/empty.html',
-    '/src/pages/empty.html',
+    '/src/pages/quiz.html',
+    '/src/pages/snake.html',
     '/src/pages/module-f.html'
 ];
 
