@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questions Creator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="icon.png">
+    <script defer src="file.manager.js"></script>
+    <script defer src="database.js"></script>
+    <script defer src="script.js"></script>
+</head>
+
+<body dir="rtl">
+    <h1><u>יוצר השאלות</u></h1>
+    <button class="add">+</button>
+    <a href="https://github.com/zivrefaeli" target="_blank"><img src="github-icon.png" /></a>
+    <div class="questions"></div>
+    <button class="create">צור קובץ שאלות</button>
+    <div class="cover">
+        <button>x</button>
+        <div class="create-question">
+            <form action="../questions-creator/index.html" method="get">
+                <input type="text" placeholder="הכניסו את כותרת השאלה" name="title"><br>
+                <label for="count">מספר התשובות האפשריות:</label>
+                <select name="count" id="select">
+                    <option selected value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+                <div class="answers"></div>
+                <input type="submit" value="הוסיפו שאלה">
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
